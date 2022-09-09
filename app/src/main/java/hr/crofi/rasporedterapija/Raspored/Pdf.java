@@ -9,12 +9,14 @@ import android.graphics.pdf.PdfDocument;
 import java.util.ArrayList;
 import java.util.List;
 
+import hr.crofi.rasporedterapija.Baza.Baza;
 import hr.crofi.rasporedterapija.OpisneKlase.Dan;
+import hr.crofi.rasporedterapija.OpisneKlase.Zaposlenik;
 
 public class Pdf {
     List<Dan> Dani=new ArrayList<Dan>();
     List<Integer> index=new ArrayList<Integer>();
-
+    Baza con;
     public PdfDocument Kreirajpdf(List<Dan> SortiraniDan){
         System.out.println("broj dana: "+SortiraniDan.size());
         Dani=SortiraniDan;
@@ -58,6 +60,8 @@ public class Pdf {
  public void KreirajStranicu(int broj, PdfDocument pdf, int brojIndexaP, int brojIndexaZ){
      PdfDocument.PageInfo pi= new PdfDocument.PageInfo.Builder(1200,2010,broj).create();
      PdfDocument.Page myPage=pdf.startPage(pi);
+     con=Baza.getInstance();
+     Zaposlenik ulogiraniZap=con.getUlogiraniZaposlenik();
      int pageWidth=1200;
      int pageHeight=2010;
      Paint paint=new Paint();
@@ -69,9 +73,9 @@ public class Pdf {
      c.drawText("USTANOVA ZA NJEGU U KUĆI DOMNIUS, JARUŠČICA 9E, ZAGREB",150, 100, title);
      c.drawText("EVIDENCIJA O KRETANJU PRIVATNOG AUTOMOBILA ZA RAZDOBLJE",150, 160, title);
      c.drawText("OD "+ Dani.get(0).getDatum()+" DO "+ Dani.get(Dani.size()-1).getDatum()+" godine U SLUŽBENE SVRHE",150, 190, title);
-     c.drawText("Korisnik: Andreja Stjepanović",150, 250, title);
-     c.drawText("Marka automobila: Citroen",150, 280, title);
-     c.drawText("Registarski broj automobila: 4864876584",150, 310, title);
+     c.drawText("Korisnik: "+ulogiraniZap.getIme() +" "+ ulogiraniZap.getPrezime(),150, 250, title);
+     c.drawText("Marka automobila: "+ulogiraniZap.getAuto(),150, 280, title);
+     c.drawText("Registarski broj automobila: "+ulogiraniZap.getRegistracija(),150, 310, title);
      //informacije u desnom kutu
      paint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
      paint.setTextSize(30f);

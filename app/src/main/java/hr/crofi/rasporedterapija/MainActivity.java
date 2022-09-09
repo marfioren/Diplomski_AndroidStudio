@@ -16,7 +16,6 @@ import java.util.concurrent.ExecutionException;
 import hr.crofi.rasporedterapija.Aktivnosti.KreiranjeDana;
 import hr.crofi.rasporedterapija.Baza.Baza;
 import hr.crofi.rasporedterapija.Baza.Podaci;
-import hr.crofi.rasporedterapija.Kosarica.ProvjeraSignala;
 
 public class MainActivity extends AppCompatActivity{
     Button mybtn;
@@ -31,15 +30,6 @@ public class MainActivity extends AppCompatActivity{
         getSupportActionBar().hide();
         Typeface type = Typeface.createFromAsset(getAssets(),"NBold.otf");
         setContentView(R.layout.activity_main);
-        boolean jeliImadeWFIJA=true;
-        ProvjeraSignala ps= new ProvjeraSignala();
-        jeliImadeWFIJA=ps.ProvjeriSignal(MainActivity.this);
-        if(jeliImadeWFIJA){
-            System.out.println("Imade");
-        }
-        else{
-            System.out.println("Nemade");
-        }
         con=Baza.getInstance();
         mybtn = (Button)findViewById(R.id.button);
         mybtn.setTypeface(type);
@@ -69,8 +59,8 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(this, "Krivi podaci", Toast.LENGTH_LONG).show();
             }
             else{
-                int idKor=Integer.parseInt(rezultat);
-                con.setUlogiranizaposlenik(idKor);
+                con.PrijaviZaposlenika(rezultat);
+                int idKor=con.getUlogiraniZaposlenik().getId();
                 String link3 = "http://crofi.com/assets/assets/images/RasporedBaza/SviDani.php?id="+idKor;
                 new Podaci(this, t1, 2).execute(link2).get();
                 new Podaci(this, t1, 3).execute(link3).get();

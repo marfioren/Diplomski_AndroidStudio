@@ -33,12 +33,14 @@ public class Konekcija{
  }
 public String SviDani(String podaci){
         List<String> razdvojeniPodaci=new ArrayList<String>();
-        razdvojeniPodaci=RazdvojiPodatke(podaci);
-        Baza con=Baza.getInstance();
-        if(con.getStavljeno()!=2){
-            con.StaviSveDane(razdvojeniPodaci);
+        if(podaci.length()!=0) {
+            razdvojeniPodaci = RazdvojiPodatke(podaci);
+            Baza con = Baza.getInstance();
+            if (con.getStavljeno() != 2) {
+                con.StaviSveDane(razdvojeniPodaci);
+            }
+            List<Dan> D = con.getSviDani();
         }
-        List<Dan> D=con.getSviDani();
         String t="OK";
         return t;
     }

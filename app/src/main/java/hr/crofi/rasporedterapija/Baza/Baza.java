@@ -1,11 +1,13 @@
 package hr.crofi.rasporedterapija.Baza;
 
 import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import hr.crofi.rasporedterapija.OpisneKlase.Dan;
 import hr.crofi.rasporedterapija.OpisneKlase.Klijent;
+import hr.crofi.rasporedterapija.OpisneKlase.Zaposlenik;
 
 public class Baza {
     private List<Klijent> sviKlijenti;
@@ -13,8 +15,7 @@ public class Baza {
     private static Baza instanca = null;
     private Context context;
     private int stavljeno=0;
-    private static int Ulogiranizaposlenik;
-
+    private static Zaposlenik UlogiraniZaposlenik;
     public static Baza getInstance() {
         if (instanca == null) {
             instanca = new Baza();
@@ -27,6 +28,15 @@ public class Baza {
         sviDani=new ArrayList<Dan>();
 
     }
+    public static void Odjava(){
+        instanca = new Baza();
+    }
+    public void PrijaviZaposlenika(String PodaciZaposlenika){
+
+        String[] polje = PodaciZaposlenika.split("#",5);
+        UlogiraniZaposlenik = new Zaposlenik(Integer.parseInt(polje[0]),polje[1], polje[2], polje[3], polje[4]);
+    }
+
     public void StaviSveKlijente(List<String> SviKlijenti){
         List<String> podaci=new ArrayList<String>();
         podaci=SviKlijenti;
@@ -37,6 +47,8 @@ public class Baza {
         }
         stavljeno=1;
     }
+
+
 
     public void StaviSveDane(List<String> SviDani){
         List<String> podaci=new ArrayList<String>();
@@ -94,14 +106,9 @@ public class Baza {
         return stavljeno;
     }
 
-    public int getUlogiranizaposlenik() {
-        return Ulogiranizaposlenik;
+    public Zaposlenik getUlogiraniZaposlenik() {
+        return UlogiraniZaposlenik;
     }
-
-    public void setUlogiranizaposlenik(int ulogiranizaposlenik) {
-        Ulogiranizaposlenik = ulogiranizaposlenik;
-    }
-
     public Dan provjeriDatum(String datum){
         for(int i=0;i<sviDani.size();i++){
             String dat=sviDani.get(i).getDatum();

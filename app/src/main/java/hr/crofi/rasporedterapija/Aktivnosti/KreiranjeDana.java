@@ -1,11 +1,7 @@
 package hr.crofi.rasporedterapija.Aktivnosti;
 
 import android.Manifest;
-import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -21,8 +17,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -35,8 +29,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -149,6 +141,7 @@ public class KreiranjeDana extends AppCompatActivity implements DodavnjeKlijenta
                 Toast.makeText(this, "Kreirana datoteka Raspored.pdf", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.odjavi:
+                con.Odjava();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -193,7 +186,11 @@ public class KreiranjeDana extends AppCompatActivity implements DodavnjeKlijenta
         }
         updateSpinner();
         String km=d.getKm();
+        String ps=d.getPstanje();
+        String zs=d.getZstanje();
         t2.setText(km);
+        t8.setText(ps);
+        t9.setText(zs);
     }
 
     public void unesiKlijente(){
@@ -252,13 +249,13 @@ public class KreiranjeDana extends AppCompatActivity implements DodavnjeKlijenta
             }
         }
         String Datum = datum;
-        String Poc = "0";
-        String Zav = "0";
+        String Poc = t8.getText().toString();
+        String Zav = t9.getText().toString();
         String Pkm = km;
         String Popis = lista;
-        Integer Mjesec = 10;
-        Integer Godina = 2021;
-        Integer Zaposlenik = con.getUlogiranizaposlenik();
+        Integer Mjesec = 9;
+        Integer Godina = 2022;
+        Integer Zaposlenik = con.getUlogiraniZaposlenik().getId();
         String link = "http://crofi.com/assets/assets/images/RasporedBaza/UpdateDan.php?Datum="+Datum+"&Poc="+Poc+"&Zav="+Zav+"&Pkm="+Pkm+"&Popis="+Popis+"&Mjesec="+Mjesec+"&Godina="+Godina+"&Zaposlenik="+Zaposlenik;
         Object result= null;
         try {
